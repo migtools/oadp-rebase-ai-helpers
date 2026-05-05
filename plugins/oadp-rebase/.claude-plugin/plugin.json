@@ -1,0 +1,8 @@
+{
+  "name": "oadp-rebase",
+  "description": "OADP rebase workflows for rebasing upstream Velero ecosystem repos into OpenShift downstream forks using rebasebot",
+  "version": "1.0.0",
+  "author": {
+    "name": "OADP Contributors"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "oadp-rebase-ai-helpers",
+  "owner": {
+    "name": "migtools"
+  },
+  "plugins": [
+    {
+      "name": "oadp-rebase",
+      "source": "./plugins/oadp-rebase",
+      "description": "OADP rebase workflows for rebasing upstream Velero ecosystem repos into OpenShift downstream forks"
+    }
+  ]
+}
