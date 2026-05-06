@@ -47,7 +47,22 @@ For these repos, do NOT change the source - it should remain pointing to the dow
 
 ## Implementation
 
-### Phase 1: Locate Config
+### Phase 1: Set Up the oadp-rebase Repository
+Do NOT rely on the oadp-rebase repo being in the current working directory or home directory. Re-use a previous clone if available, otherwise clone fresh:
+```bash
+OADP_REBASE_DIR="/tmp/oadp-rebase-tools"
+if [ -d "$OADP_REBASE_DIR/.git" ]; then
+  cd "$OADP_REBASE_DIR"
+  git fetch origin
+  git reset --hard origin/oadp-dev
+else
+  git clone https://github.com/oadp-rebasebot/oadp-rebase.git "$OADP_REBASE_DIR" --branch oadp-dev --single-branch
+  cd "$OADP_REBASE_DIR"
+fi
+```
+All config files are in `$OADP_REBASE_DIR/rebase-configs/`. All subsequent operations should use this directory.
+
+### Phase 2: Locate Config
 1. Map the repo name and branch to the config file:
    ```
    velero + oadp-1.6 -> rebase-configs/openshift_velero_oadp-1.6.env.sh
@@ -56,19 +71,19 @@ For these repos, do NOT change the source - it should remain pointing to the dow
    ```
 2. Read the current config file
 
-### Phase 2: Verify Upstream Version
+### Phase 3: Verify Upstream Version
 1. Check that the new upstream tag/branch exists:
    ```bash
    git ls-remote --tags https://github.com/{upstream-org}/{repo} {new-version}
    ```
 2. If it doesn't exist, warn the user and abort
 
-### Phase 3: Update Config
+### Phase 4: Update Config
 1. Update the upstream version variable (e.g., `UPSTREAM_VELERO_BRANCH`, `UPSTREAM_PLUGIN_TAG`, `UPSTREAM_KOPIA_TAG_BRANCH_FOR_VELERO`)
 2. Update any comments referencing the version
 3. Do NOT change `DESTINATION_DOWNSTREAM_REPO`, `REBASE_REPO`, or `HOOK_SCRIPTS` unless explicitly requested
 
-### Phase 4: Validate
+### Phase 5: Validate
 1. Source the updated config file to verify it parses correctly
 2. Print the resulting configuration for review
 3. Run `./run-oadp-rebase.sh --test --branch {branch} {repo}` to validate

@@ -32,15 +32,11 @@ A rebase updates a downstream fork to a newer upstream version while preserving 
 
 ### Install the Plugin
 
-From within a Claude Code session, run:
+From within a Claude Code session, first add the marketplace, then install the plugin:
 
 ```
-/plugin install oadp-rebase@https://github.com/migtools/oadp-rebase-ai-helpers
-```
-
-Then reload plugins to activate:
-
-```
+/plugin marketplace add migtools/oadp-rebase-ai-helpers
+/plugin install oadp-rebase@oadp-rebase-ai-helpers
 /reload-plugins
 ```
 

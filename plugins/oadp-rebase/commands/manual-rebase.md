@@ -32,6 +32,21 @@ The `oadp-rebase:manual-rebase` command provides step-by-step guidance for manua
 
 ## Implementation
 
+### Phase 0: Set Up the oadp-rebase Repository
+All strategies below require the oadp-rebase repo for configs and hook scripts. Do NOT rely on it being in the current working directory or home directory. Re-use a previous clone if available, otherwise clone fresh:
+```bash
+OADP_REBASE_DIR="/tmp/oadp-rebase-tools"
+if [ -d "$OADP_REBASE_DIR/.git" ]; then
+  cd "$OADP_REBASE_DIR"
+  git fetch origin
+  git reset --hard origin/oadp-dev
+else
+  git clone https://github.com/oadp-rebasebot/oadp-rebase.git "$OADP_REBASE_DIR" --branch oadp-dev --single-branch
+  cd "$OADP_REBASE_DIR"
+fi
+```
+Config files are in `$OADP_REBASE_DIR/rebase-configs/` and hook scripts in `$OADP_REBASE_DIR/rebasebot-hook-scripts/`.
+
 ### Strategy A: Stale Rebase Branch Fix
 When rebasebot drops downstream files due to stale rebase branch:
 

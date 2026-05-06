@@ -25,26 +25,45 @@ For each repository:
 
 ## Implementation
 
-### Phase 1: Load All Configs
-1. Read all `rebase-configs/*_{branch}.env.sh` files
+### Phase 1: Set Up the oadp-rebase Repository
+Do NOT rely on the oadp-rebase repo being in the current working directory or home directory. Re-use a previous clone if available, otherwise clone fresh:
+```bash
+OADP_REBASE_DIR="/tmp/oadp-rebase-tools"
+if [ -d "$OADP_REBASE_DIR/.git" ]; then
+  cd "$OADP_REBASE_DIR"
+  git fetch origin
+  git reset --hard origin/oadp-dev
+else
+  git clone https://github.com/oadp-rebasebot/oadp-rebase.git "$OADP_REBASE_DIR" --branch oadp-dev --single-branch
+  cd "$OADP_REBASE_DIR"
+fi
+```
+This ensures the latest configs are used. All config files are in `$OADP_REBASE_DIR/rebase-configs/`.
+
+### Phase 2: Load All Configs
+1. Read all `rebase-configs/*_{branch}.env.sh` files from the cloned oadp-rebase repo
 2. For each config, extract:
    - `SOURCE_UPSTREAM_REPO` (upstream version)
    - `DESTINATION_DOWNSTREAM_REPO` (downstream target)
    - `SKIP_REPO` flag
 3. Determine if it's a hooks-only repo (source org/repo == dest org/repo)
 
-### Phase 2: Check PRs
-1. For each repository, check for open PRs from `oadp-rebasebot`:
+### Phase 3: Check PRs
+The rebase bot uses a GitHub App identity (`app/oadp-rebasebot-app`), NOT a regular user account. Do NOT use `--author "oadp-rebasebot"` — it will not match.
+
+Instead, filter PRs by the **head branch name** `rebase-bot-{branch}`, which is the branch the bot always pushes to:
+
+1. For each repository, check for open rebase PRs:
    ```bash
-   gh pr list --repo {org}/{repo} --author "oadp-rebasebot" --state open
+   gh pr list --repo {org}/{repo} --head "rebase-bot-{branch}" --state open --json number,title,url,createdAt --limit 3
    ```
 2. Check recently merged rebase PRs:
    ```bash
-   gh pr list --repo {org}/{repo} --author "oadp-rebasebot" --state merged --limit 3
+   gh pr list --repo {org}/{repo} --head "rebase-bot-{branch}" --state merged --json number,title,url,mergedAt --limit 3
    ```
 
-### Phase 3: Generate Report
-1. Organize by wave
+### Phase 4: Generate Report
+1. Organize by wave (see wave ordering in `/oadp-rebase:rebase`)
 2. For each repo show:
    - Wave number
    - Repo name
