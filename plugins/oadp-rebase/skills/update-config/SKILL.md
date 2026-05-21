@@ -1,6 +1,6 @@
 ---
+name: Update Config Command
 description: Update a rebase config file to target a new upstream version
-argument-hint: <repo> <branch> <new-upstream-version>
 ---
 
 ## Name

@@ -1,6 +1,6 @@
 ---
+name: Update Wiki Command
 description: Generate rebase status markdown and update the oadp-operator wiki page
-argument-hint: [--branch <oadp-branch>]
 ---
 
 ## Name

@@ -1,6 +1,6 @@
 ---
+name: Update Dependency Command
 description: Update go.mod replace directives for repos that depend on downstream velero
-argument-hint: <repo> <branch> [--velero-commit <commit>]
 ---
 
 ## Name

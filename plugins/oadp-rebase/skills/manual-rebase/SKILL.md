@@ -1,6 +1,6 @@
 ---
+name: Manual Rebase Command
 description: Handle repositories that need manual rebase intervention
-argument-hint: <repo> <branch> [--reason <reason>]
 ---
 
 ## Name

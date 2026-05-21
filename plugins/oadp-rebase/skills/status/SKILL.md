@@ -1,6 +1,6 @@
 ---
+name: Status Command
 description: Check current rebase status across all OADP repositories for a branch
-argument-hint: [--branch <oadp-branch>] [--wave <wave-number>]
 ---
 
 ## Name

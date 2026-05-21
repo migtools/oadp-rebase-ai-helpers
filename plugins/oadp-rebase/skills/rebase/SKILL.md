@@ -1,6 +1,6 @@
 ---
+name: Rebase Command
 description: Run a full OADP rebase for a single repository or an entire wave
-argument-hint: <repo-branch|wave-number> [--branch <oadp-branch>] [--dry-run]
 ---
 
 ## Name
