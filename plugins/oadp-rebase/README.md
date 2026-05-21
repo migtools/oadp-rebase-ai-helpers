@@ -14,7 +14,7 @@ The OADP Rebase plugin provides Claude Code commands for automating the OADP (Op
 | `/oadp-rebase:update-dependency` | Update go.mod replace directives manually |
 | `/oadp-rebase:update-wiki` | Generate rebase status markdown and update the wiki page |
 
-Command files are thin wrappers for slash-command compatibility. Detailed implementations live under `skills/`.
+Slash command behavior is defined in `skills/` using `SKILL.md` files.
 
 ## Skills
 

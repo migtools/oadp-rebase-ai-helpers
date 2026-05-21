@@ -15,14 +15,6 @@ oadp-rebase-ai-helpers/
 │   └── oadp-rebase/
 │       ├── .claude-plugin/
 │       │   └── plugin.json       # Plugin metadata
-│       ├── commands/
-│       │   ├── rebase.md         # Thin slash-command wrapper
-│       │   ├── verify-commits.md # Thin slash-command wrapper
-│       │   ├── update-config.md  # Thin slash-command wrapper
-│       │   ├── manual-rebase.md  # Thin slash-command wrapper
-│       │   ├── status.md         # Thin slash-command wrapper
-│       │   ├── update-dependency.md # Thin slash-command wrapper
-│       │   └── update-wiki.md    # Thin slash-command wrapper
 │       ├── skills/
 │       │   ├── rebase/
 │       │   │   └── SKILL.md      # Rebase command implementation
@@ -112,8 +104,8 @@ Post-rebase scripts in `rebasebot-hook-scripts/`:
 
 ## Plugin Conventions
 
-### Command Wrapper Format
-All commands in `plugins/{plugin-name}/commands/` are thin wrappers with YAML frontmatter:
+### Skill Definition Format
+Slash commands are defined directly by `plugins/{plugin-name}/skills/{skill-name}/SKILL.md`:
 
 ```markdown
 ---
@@ -137,8 +129,7 @@ All command implementations and reusable procedures live in `plugins/{plugin-nam
 
 ### Adding a New Command
 1. Create `plugins/oadp-rebase/skills/{command-name}/SKILL.md` with the full implementation
-2. Create `plugins/oadp-rebase/commands/{command-name}.md` as a thin wrapper pointing to that skill
-3. Update PLUGINS.md
+2. Update PLUGINS.md
 
 ### Adding a New Skill
 1. Create `plugins/oadp-rebase/skills/{skill-name}/SKILL.md`
