@@ -12,13 +12,22 @@ The OADP Rebase plugin provides Claude Code commands for automating the OADP (Op
 | `/oadp-rebase:manual-rebase` | Handle repos needing manual intervention |
 | `/oadp-rebase:status` | Check rebase status across all repos |
 | `/oadp-rebase:update-dependency` | Update go.mod replace directives manually |
+| `/oadp-rebase:update-wiki` | Generate rebase status markdown and update the wiki page |
+
+Command files are thin wrappers for slash-command compatibility. Detailed implementations live under `skills/`.
 
 ## Skills
 
 | Skill | Description |
 |-------|-------------|
+| [rebase](skills/rebase/SKILL.md) | Command implementation for `/oadp-rebase:rebase` |
+| [verify-commits](skills/verify-commits/SKILL.md) | Command implementation for `/oadp-rebase:verify-commits` |
+| [update-config](skills/update-config/SKILL.md) | Command implementation for `/oadp-rebase:update-config` |
+| [manual-rebase](skills/manual-rebase/SKILL.md) | Command implementation for `/oadp-rebase:manual-rebase` |
+| [status](skills/status/SKILL.md) | Command implementation for `/oadp-rebase:status` |
+| [update-dependency](skills/update-dependency/SKILL.md) | Command implementation for `/oadp-rebase:update-dependency` |
+| [update-wiki](skills/update-wiki/SKILL.md) | Command implementation for `/oadp-rebase:update-wiki` |
 | [rebase-workflow](skills/rebase-workflow/SKILL.md) | Complete end-to-end rebase procedure |
-| [verify-commits](skills/verify-commits/SKILL.md) | Detailed commit verification guide |
 | [manual-intervention](skills/manual-intervention/SKILL.md) | Manual fix procedures for common failures |
 | [hook-scripts](skills/hook-scripts/SKILL.md) | Reference for all post-rebase hook scripts |
 

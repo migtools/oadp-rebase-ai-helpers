@@ -16,17 +16,30 @@ oadp-rebase-ai-helpers/
 │       ├── .claude-plugin/
 │       │   └── plugin.json       # Plugin metadata
 │       ├── commands/
-│       │   ├── rebase.md         # Main rebase command
-│       │   ├── verify-commits.md # Commit verification
-│       │   ├── update-config.md  # Config update
-│       │   ├── manual-rebase.md  # Manual intervention
-│       │   ├── status.md         # Status check
-│       │   └── update-dependency.md # Dependency update
+│       │   ├── rebase.md         # Thin slash-command wrapper
+│       │   ├── verify-commits.md # Thin slash-command wrapper
+│       │   ├── update-config.md  # Thin slash-command wrapper
+│       │   ├── manual-rebase.md  # Thin slash-command wrapper
+│       │   ├── status.md         # Thin slash-command wrapper
+│       │   ├── update-dependency.md # Thin slash-command wrapper
+│       │   └── update-wiki.md    # Thin slash-command wrapper
 │       ├── skills/
+│       │   ├── rebase/
+│       │   │   └── SKILL.md      # Rebase command implementation
+│       │   ├── verify-commits/
+│       │   │   └── SKILL.md      # Verify command implementation + guide
+│       │   ├── update-config/
+│       │   │   └── SKILL.md      # Config update implementation
+│       │   ├── manual-rebase/
+│       │   │   └── SKILL.md      # Manual rebase implementation
+│       │   ├── status/
+│       │   │   └── SKILL.md      # Status command implementation
+│       │   ├── update-dependency/
+│       │   │   └── SKILL.md      # Dependency update implementation
+│       │   ├── update-wiki/
+│       │   │   └── SKILL.md      # Wiki update implementation
 │       │   ├── rebase-workflow/
 │       │   │   └── SKILL.md      # Complete rebase procedure
-│       │   ├── verify-commits/
-│       │   │   └── SKILL.md      # Commit verification guide
 │       │   ├── manual-intervention/
 │       │   │   └── SKILL.md      # Manual fix procedures
 │       │   └── hook-scripts/
@@ -99,8 +112,8 @@ Post-rebase scripts in `rebasebot-hook-scripts/`:
 
 ## Plugin Conventions
 
-### Command Definition Format
-All commands in `plugins/{plugin-name}/commands/` use Markdown with YAML frontmatter:
+### Command Wrapper Format
+All commands in `plugins/{plugin-name}/commands/` are thin wrappers with YAML frontmatter:
 
 ```markdown
 ---
@@ -114,20 +127,17 @@ plugin-name:command-name
 ## Synopsis
 ## Description
 ## Implementation
-## Return Value
-## Examples
-## Arguments
 ## See Also
 ```
 
-### Skills
-Complex implementation details in `plugins/{plugin-name}/skills/{skill-name}/SKILL.md`.
+### Skills (source of truth)
+All command implementations and reusable procedures live in `plugins/{plugin-name}/skills/{skill-name}/SKILL.md`.
 
 ## Contributing
 
 ### Adding a New Command
-1. Create `plugins/oadp-rebase/commands/{command-name}.md`
-2. Follow the command definition format above
+1. Create `plugins/oadp-rebase/skills/{command-name}/SKILL.md` with the full implementation
+2. Create `plugins/oadp-rebase/commands/{command-name}.md` as a thin wrapper pointing to that skill
 3. Update PLUGINS.md
 
 ### Adding a New Skill
