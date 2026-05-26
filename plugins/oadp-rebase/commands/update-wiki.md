@@ -84,12 +84,18 @@ GitHub wikis are git repositories. Clone, update the page, push.
    WIKI_DIR="/tmp/oadp-operator-wiki"
    if [ -d "$WIKI_DIR/.git" ]; then
      cd "$WIKI_DIR"
+     git checkout -- .  # Reset any local modifications
      git pull --ff-only
    else
      gh repo clone openshift/oadp-operator.wiki "$WIKI_DIR"
      cd "$WIKI_DIR"
    fi
    ```
+   After cloning or pulling, verify the working tree is clean:
+   ```bash
+   git status --porcelain
+   ```
+   If the output is not empty, **delete the wiki directory and re-clone** (`rm -rf "$WIKI_DIR"` then clone again) to ensure a clean state before proceeding.
 
 2. **Determine the wiki page filename**. GitHub wiki files use the page title as filename with `.md` extension. The URL slug uses Unicode hyphens but the actual filename uses regular characters:
    ```bash
@@ -108,13 +114,22 @@ GitHub wikis are git repositories. Clone, update the page, push.
    cp /tmp/rebase-status-{branch}.md "$WIKI_DIR/{wiki-page-filename}"
    ```
 
-4. **Commit and push**:
+4. **Safety check — verify only the target file changed**:
    ```bash
    cd "$WIKI_DIR"
-   git add -A
+   git status --porcelain
+   ```
+   **CRITICAL**: The output must show ONLY the target wiki page file as modified (e.g., `M  Rebase-status-‐-oadp‐1.6.md`). If `git status` shows ANY other changes — deletions (`D`), untracked files (`??`), or modifications to other files — **STOP and alert the user**. Do NOT proceed with `git add` or `git push` until the unexpected changes are understood. This prevents accidental deletion of other wiki pages.
+
+5. **Stage ONLY the target file, commit, and push**:
+   ```bash
+   cd "$WIKI_DIR"
+   git add -- "{wiki-page-filename}"
+   git diff --cached --stat  # Verify only the intended file is staged
    git commit -m "Update rebase status for {branch} - $(date +%Y-%m-%d)"
    git push
    ```
+   **NEVER use `git add -A`, `git add .`, or `git add --all`** in the wiki repo. Always stage only the specific file being updated.
 
 ### Phase 4: Report
 
